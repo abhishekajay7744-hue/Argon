@@ -1,0 +1,147 @@
+{
+  "entities": {
+    "UserAccount": {
+      "title": "User Account",
+      "description": "Indian restaurant daily ledger settings for the authenticated user.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Authenticated Firebase user UID."
+        },
+        "currency": {
+          "type": "string",
+          "enum": ["INR", "USD"],
+          "description": "Display currency code (default INR)."
+        },
+        "monthlySavingsGoal": {
+          "type": "number",
+          "description": "Target monthly profit benchmark."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server update timestamp."
+        }
+      },
+      "required": ["userId", "currency", "monthlySavingsGoal", "createdAt", "updatedAt"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "A daily restaurant expenditure or closing sales entry.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Owner Firebase UID."
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120,
+          "description": "Item, supplier, or closing balance description."
+        },
+        "amount": {
+          "type": "number",
+          "description": "Positive monetary amount."
+        },
+        "type": {
+          "type": "string",
+          "enum": ["income", "expense"],
+          "description": "Sales (income) or expenditure (expense)."
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "Vegetables",
+            "Chicken",
+            "Beef",
+            "Milk",
+            "Gas",
+            "Electricity",
+            "Staff Wages",
+            "Rent",
+            "Maintenance",
+            "Supermarket & Packaging",
+            "Other Expenditure",
+            "Daily Total Sales"
+          ],
+          "description": "Restaurant expenditure or closing sales category."
+        },
+        "date": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 10,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "description": "ISO date string YYYY-MM-DD."
+        },
+        "time": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 5,
+          "pattern": "^\\d{2}:\\d{2}$",
+          "description": "24-hour time string HH:mm."
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 300,
+          "description": "Optional note."
+        },
+        "autoCategorized": {
+          "type": "boolean",
+          "description": "Whether category was automatically inferred."
+        },
+        "sourceBillId": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Reserved empty string or reference ID."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server update timestamp."
+        }
+      },
+      "required": [
+        "userId",
+        "title",
+        "amount",
+        "type",
+        "category",
+        "date",
+        "time",
+        "notes",
+        "autoCategorized",
+        "sourceBillId",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserAccount" },
+      "description": "Private restaurant workspace configuration."
+    },
+    "/users/{userId}/transactions/{transactionId}": {
+      "schema": { "$ref": "#/entities/Transaction" },
+      "description": "Daily restaurant expenditure and closing sales entries."
+    }
+  }
+}

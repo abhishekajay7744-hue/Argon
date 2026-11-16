@@ -1,0 +1,8 @@
+{
+  "name": "ClearLedger",
+  "description": "Mobile-responsive personal billing, expenditure, and profit & loss dashboard with day, week, month, and year tracking, cloud syncing, and automated expense categorization.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
